@@ -8,7 +8,7 @@ import java.util.List;
 
 @FeignClient(name="product", url="${product.url}")
 public interface ProductClient {
-    @GetMapping("/internal/products")
+    @GetMapping(value = "/internal/products")
     List<Product> getProducts();
 
     @PostMapping(path = "/internal/products" , produces = "application/json", consumes = "application/json")

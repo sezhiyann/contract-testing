@@ -1,0 +1,32 @@
+description: Add Product
+name: valid_add_product
+request:
+  url: /internal/products
+  method: POST
+  body:
+    name: new product 1
+    price: 234.0
+  headers:
+    Content-Type: application/json
+response:
+  status: 200
+  body:
+    id: 4
+    name: "{{{ jsonpath this '$.name' }}}"
+    price: "{{{ jsonpath this '$.price' }}}"
+  headers:
+    Content-Type: application/json
+  matchers:
+    headers:
+      - key: Content-Type
+        regex: "application/json.*"
+    body:
+      - path: $.id
+        type: by_regex
+        predefined: number
+      - path: $.name
+        type: by_regex
+        predefined: non_blank
+      - path: $.price
+        type: by_regex
+        predefined: number

@@ -1,0 +1,20 @@
+description: Get Products
+name: valid_get_products
+request:
+  url: /internal/products
+  method: GET
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    - id: 1
+      name: Cricket Bat
+      price: 650.0
+    - id : 2
+      name: Tennis Bat
+      price: 890.0
+  matchers:
+    headers:
+      - key: Content-Type
+        regex: "application/json.*"

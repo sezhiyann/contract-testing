@@ -27,7 +27,7 @@ public class ProductAPI {
         return "Application has started OK!!!";
     }
 
-    @PostMapping(path = "/internal/products", produces = "application/json", consumes = "application/json")
+    @PostMapping(path = "/internal/products")
     public Product addProduct(@RequestBody Product product) {
         if (product != null) {
             product.setId(counter++);
@@ -37,7 +37,7 @@ public class ProductAPI {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(path = "/internal/products", produces = "application/json")
+    @GetMapping(path = "/internal/products")
     public List<Product> getProducts() {
         return products;
     }
