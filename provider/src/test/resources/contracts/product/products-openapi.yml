@@ -1,0 +1,146 @@
+openapi: 3.0.0
+servers:
+  - description: Contract Testing
+    url: https://virtserver.swaggerhub.com/sez_tryouts/Products/1.0.0
+info:
+  description: Product API
+  version: "1.0.0"
+  title: Product API
+  contact:
+    email: snavarasu@vmware.com
+paths:
+  /internal/products:
+    post:
+      summary: Add a new product
+      operationId: addProduct
+      description: Add a new product
+      x-contracts:
+        - contractId: 1
+          name: successful
+      # - contractId: 2
+      #   name: invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProduct'
+        x-contracts:
+          - contractId: 1
+            body:
+              name: new product 1
+              price: 234.0
+            headers:
+              Content-Type: application/json
+            matchers:
+              body:
+                - path: $.['name']
+                  type: by_regex
+                  predefined: non_empty
+                - path: $.['price']
+                  type: by_regex
+                  predefined: number
+        # - contractId: 2
+        #   body:
+        #     name: product with invalid price
+        #     price: -1
+      responses:
+        # '400':
+        #   description: validation failed
+        #   x-contracts:
+        #   - contractId: 2
+        '200':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadProduct'
+          x-contracts:
+            - contractId: 1
+              headers:
+                Content-Type: application/json
+              body:
+                id: 4
+                name: "{{{jsonpath this '$.name'}}}"
+                price: "{{{jsonpath this '$.price'}}}"
+              matchers:
+                headers:
+                  - key: Content-Type
+                    regex: "application/json.*"
+                body:
+                  - path: $.id
+                    type: by_regex
+                    value: "[0-9]+"
+                  - path: $.name
+                    type: by_regex
+                    predefined: non_blank
+                  - path: $.price
+                    type: by_regex
+                    predefined: number
+    get:
+      summary: Get the list of available products
+      operationId: getProducts
+      description: |
+        Get the list of available products
+      x-contracts:
+        - contractId: 3
+          name: contain 3 records
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReadProduct'
+          x-contracts:
+            - contractId: 3
+              headers:
+                Content-Type: application/json
+              body:
+                - id: 1
+                  name: Cricket Bat
+                  price: 650.0
+                - id: 2
+                  name: Tennis Bat
+                  price: 890.0
+                - id: 3
+                  name: Football
+                  price: 530.0
+              matchers:
+                headers:
+                  - key: Content-Type
+                    regex: "application/json.*"
+components:
+  schemas:
+    ReadProduct:
+      type: object
+      required:
+        - id
+        - name
+        - price
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Cricket Bat
+        price:
+          type: number
+          format: double
+          example: 650.0
+    AddProduct:
+      type: object
+      required:
+        - name
+        - price
+      properties:
+        name:
+          type: string
+          example: Cricket Bat
+        price:
+          type: number
+          format: double
+          example: 650.0

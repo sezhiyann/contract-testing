@@ -1,5 +1,6 @@
 description: Get Products
 name: valid_get_products
+ignored: true
 request:
   url: /internal/products
   method: GET

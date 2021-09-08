@@ -1,5 +1,6 @@
 description: Add Product
 name: valid_add_product
+ignored: true
 request:
   url: /internal/products
   method: POST
@@ -26,7 +27,7 @@ response:
         predefined: number
       - path: $.name
         type: by_regex
-        predefined: non_blank
+        predefined: non_empty
       - path: $.price
         type: by_regex
         predefined: number

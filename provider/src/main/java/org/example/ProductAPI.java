@@ -1,6 +1,7 @@
 package org.example;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +30,7 @@ public class ProductAPI {
 
     @PostMapping(path = "/internal/products")
     public Product addProduct(@RequestBody Product product) {
-        if (product != null) {
+        if (product != null && !StringUtils.isEmpty(product.getName()) && product.getPrice() > 0) {
             product.setId(counter++);
             products.add(product);
             return product;
