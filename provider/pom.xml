@@ -15,8 +15,8 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <java.version>1.8</java.version>
-        <spring-cloud-contract.version>2.1.1.RELEASE</spring-cloud-contract.version>
-        <scc-oa3-version>2.1.1.1</scc-oa3-version>
+        <spring-cloud-contract.version>2.1.5.RELEASE</spring-cloud-contract.version>
+        <scc-oa3-version>2.1.2.0</scc-oa3-version>
     </properties>
     <dependencies>
         <dependency>
@@ -44,16 +44,10 @@
             <version>${scc-oa3-version}</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.junit.jupiter</groupId>-->
-<!--            <artifactId>junit-jupiter</artifactId>-->
-<!--            <version>5.5.1</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
 
     </dependencies>
 
-    <build >
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
