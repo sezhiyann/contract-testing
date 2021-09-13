@@ -17,8 +17,8 @@ paths:
       x-contracts:
         - contractId: 1
           name: successful
-      # - contractId: 2
-      #   name: invalid
+        - contractId: 2
+          name: invalid
       requestBody:
         content:
           application/json:
@@ -33,21 +33,29 @@ paths:
               Content-Type: application/json
             matchers:
               body:
-                - path: $.['name']
-                  type: by_regex
-                  predefined: non_empty
-                - path: $.['price']
+                - path: $.name
+                  type: by_equality
+                - path: $.price
                   type: by_regex
                   predefined: number
-        # - contractId: 2
-        #   body:
-        #     name: product with invalid price
-        #     price: -1
+          - contractId: 2
+            body:
+              name: product with invalid price
+              price: -1
+            headers:
+              Content-Type: application/json
+            matchers:
+              body:
+                - path: $.price
+                  type: by_equality
+                - path: $.name
+                  type: by_regex
+                  predefined: non_empty
       responses:
-        # '400':
-        #   description: validation failed
-        #   x-contracts:
-        #   - contractId: 2
+        '400':
+          description: validation failed
+          x-contracts:
+            - contractId: 2
         '200':
           description: created
           content:

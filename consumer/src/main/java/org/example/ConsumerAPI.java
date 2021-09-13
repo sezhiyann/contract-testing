@@ -1,11 +1,9 @@
 package org.example;
 
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -26,7 +24,14 @@ public class ConsumerAPI {
 
     @PostMapping(path = "/products", produces = "application/json", consumes = "application/json")
     public Product addProduct(@RequestBody Product product) {
-        return productClient.addProduct(product);
+        try {
+            return productClient.addProduct(product);
+        } catch (FeignException ex) {
+            if (ex.status() == 400) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping(path = "/products", produces = "application/json")

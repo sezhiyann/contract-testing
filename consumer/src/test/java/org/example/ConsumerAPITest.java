@@ -46,5 +46,14 @@ public class ConsumerAPITest {
         Assert.assertTrue(product.getId() > 0);
         Assert.assertTrue((product.getPrice() == 234.0));
     }
+
+    @Test
+    public void validate_error_on_invalid_price() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMappper.writeValueAsString(new Product(0, "product with invalid price", -1))))
+                .andExpect(status().isBadRequest());
+    }
+
 }
 
