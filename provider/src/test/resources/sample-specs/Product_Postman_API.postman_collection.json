@@ -100,7 +100,54 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Response status 400\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Add a new product Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"invalid product\",\n    \"price\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
+				"url": {
+					"raw": "{{baseUrl}}/internal/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"internal",
+						"products"
+					]
+				},
+				"description": "Add a new product"
+			},
+			"response": [
 				{
 					"name": "Created",
 					"originalRequest": {
