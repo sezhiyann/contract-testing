@@ -13,8 +13,18 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 400\", function () {",
-							"    pm.response.to.have.status(400);",
+							"pm.test('post:/internal/products [code: 200] schema is valid', function () {",
+							"    if (pm.response.code !== 200){",
+							"        return;",
+							"    }",
+							"    const response = pm.response.json();",
+							"    pm.expect(response.name).to.eql(\"valid product\");",
+							"});",
+							"pm.test('<PDT TEST> post:/internal/products [code: 400] schema is valid', function () {",
+							"    if (pm.response.code !== 400){",
+							"        return;",
+							"    }",
+							"    pm.response.to.have.status(400).to.be.true;",
 							"});"
 						],
 						"type": "text/javascript"
@@ -32,103 +42,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"name\": \"invalid product\",\n    \"price\": 1\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/internal/products",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"internal",
-						"products"
-					]
-				},
-				"description": "Add a new product"
-			},
-			"response": [
-				{
-					"name": "validation failed",
-					"originalRequest": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"invalid product price\",\n    \"price\": -1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/internal/products",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"internal",
-								"products"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": null,
-									"disabled": true
-								}
-							]
-						}
-					},
-					"status": "Bad Request",
-					"code": 400,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Response status 400\"\n}"
-				}
-			]
-		},
-		{
-			"name": "Add a new product Copy",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"valid product\",\n    \"price\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -182,15 +95,77 @@
 					"header": null,
 					"cookie": [],
 					"body": "{\n    \"id\": 1234\n    \"name\": \"valid product\",\n    \"price\": 1\n}"
+				},
+				{
+					"name": "validation failed",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"invalid product price\",\n    \"price\": -1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/internal/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal",
+								"products"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Response status 400\"\n}"
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "/",
-			"type": "string"
+			"value": "/"
 		}
 	]
 }
