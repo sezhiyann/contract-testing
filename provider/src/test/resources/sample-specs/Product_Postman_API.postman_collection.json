@@ -15,7 +15,7 @@
 						"exec": [
 							"pm.test(\"Status code is 400\", function () {",
 							"    console.log(\"sez debug\")",
-							"    pm.response.to.have.status(200);",
+							"    pm.response.to.have.status(400);",
 							"});"
 						],
 						"type": "text/javascript"
