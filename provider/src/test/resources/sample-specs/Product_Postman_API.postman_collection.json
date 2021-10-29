@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "4b8115d7-22a6-4826-ace9-3f0d71b7b102",
 		"name": "Product Postman API",
-		"description": "Product Postman API",
+		"description": "version=1.0.0 Product Postman API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
